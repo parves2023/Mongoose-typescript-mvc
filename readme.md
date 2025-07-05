@@ -24,8 +24,8 @@ This project is a RESTful API for managing books and borrow records in a library
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone ...
-cd <project-folder>
+git clone https://github.com/parves2023/Mongoose-typescript-mvc
+cd Mongoose-typescript-mvc
 ````
 
 ### 2️⃣ Install dependencies
@@ -186,7 +186,7 @@ Not found example:
 
 ## 🌐 Live Deployment
 
-[View Live API](https://your-live-url.com)
+[View Live API](https://l2-libary-asignment-03-pearl.vercel.app/)
 
 ---
 
@@ -202,22 +202,7 @@ Not found example:
 * Express.js
 * MongoDB & Mongoose
 * Zod validation
+* typescript
 
 ---
-
-## 📝 License
-
-MIT License
-
-```
-
----
-
-✅ **Tip:**  
-Before submission:
-- Replace all `<your-repo-url>`, `<your-live-url.com>`, `<your-video-link.com>`.
-- Add real examples if needed.
-- Confirm all endpoints match your project.
-
-Let me know if you’d like help tailoring this further!
 ```
