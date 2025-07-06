@@ -192,7 +192,7 @@ Not found example:
 
 ## 🎥 Video Explanation
 
-[Watch the Video](https://your-video-link.com)
+[Watch the Video](https://drive.google.com/file/d/1vLfVsGk1EgA1Dq6Fj9ZTg5mnjN2DnQGe/view?usp=sharing)
 
 ---
 
