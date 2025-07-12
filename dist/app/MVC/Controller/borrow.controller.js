@@ -84,14 +84,14 @@ exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
                     as: "book",
                 },
             },
-            { $unwind: '$book' },
+            { $unwind: "$book" },
             //   process 3
             {
                 $project: {
                     _id: 0,
                     book: {
-                        title: '$book.title',
-                        isbn: '$book.isbn',
+                        title: "$book.title",
+                        isbn: "$book.isbn",
                     },
                     totalQuantity: 1,
                 },
@@ -107,3 +107,43 @@ exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
         console.log("ERROR:", error);
     }
 }));
+// borrowRoutes.get("/all-borrow", async (req, res) => {
+//   try {
+//     const borrowBooks = await Borrow.aggregate([
+//       {
+//         $lookup: {
+//           from: "books",
+//           localField: "book",
+//           foreignField: "_id",
+//           as: "book"
+//         }
+//       },
+//       {
+//         $unwind: "$book"
+//       },
+//       {
+//         $project: {
+//           _id: 1,
+//           quantity: 1,
+//           book: {
+//             title: "$book.title",
+//             isbn: "$book.isbn",
+//             genre: "$book.genre"
+//           }
+//         }
+//       }
+//     ]);
+//     res.json({
+//       success: true,
+//       message: "Got borrow books successfully",
+//       data: borrowBooks
+//     });
+//   } catch (error: any) {
+//     console.error("Error fetching borrow books:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Something went wrong",
+//       error: error?.message || error,
+//     });
+//   }
+// });

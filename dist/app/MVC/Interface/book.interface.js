@@ -9,3 +9,12 @@ exports.genreList = [
     'BIOGRAPHY',
     'FANTASY',
 ];
+// const book = {
+//     "title": "string",
+//   "author": "string",
+//   "genre": "FICTION",
+//   "isbn": "string",
+//   "description": "this is it",
+//   "available": true,
+//   "copies": 10
+// }

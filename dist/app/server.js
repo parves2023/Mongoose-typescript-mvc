@@ -15,16 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./config"));
-const boostrap = () => __awaiter(void 0, void 0, void 0, function* () {
+const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(config_1.default.database_url);
-        console.log("Sucessfully Connected Database!!");
+        console.log("Sucessfully Connected to db");
     }
     catch (error) {
         console.log(error);
     }
 });
-boostrap();
+main();
 app_1.default.listen(config_1.default.port, () => {
-    console.log(`Express Basic Server Running Test!!`);
+    console.log(`Express Basic Server Is Running`);
 });
