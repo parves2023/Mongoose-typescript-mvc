@@ -56,32 +56,50 @@ bookRoutes.post("/", async (req: Request, res: Response) => {
 });
 
 //  Get All Book
+// GET /api/books?filter=FICTION&sortBy=title&sort=asc&page=2&limit=12
 bookRoutes.get("/", async (req: Request, res: Response) => {
   try {
-    const filter = req.query.filter as string;
+    // ── query params ────────────────────────────────────────────────
+    const filter = req.query.filter as string | undefined; // e.g. "FICTION"
     const sortBy = (req.query.sortBy as string) || "createdAt";
     const sortOrder = (req.query.sort as string) === "desc" ? -1 : 1;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const limit = Number(req.query.limit) || 10; // items per page
+    const page = Math.max(Number(req.query.page) || 1, 1); // page starts at 1
+    const skip = (page - 1) * limit; // docs to skip
 
-    let query = {};
+    // ── build query ────────────────────────────────────────────────
+    const query: Record<string, unknown> = {};
+    if (filter) query.genre = filter; // simple genre filter
 
-    if (filter) {
-      query = { genre: filter };
-    }
+    // ── execute in parallel ────────────────────────────────────────
+    const [books, total] = await Promise.all([
+      Book.find(query)
+        .sort({ [sortBy]: sortOrder })
+        .skip(skip)
+        .limit(limit),
+      Book.countDocuments(query),
+    ]);
 
-    const books = await Book.find(query)
-      .sort({ [sortBy]: sortOrder })
-      .limit(limit);
-
+    // ── response ───────────────────────────────────────────────────
     res.json({
       success: true,
       message: "Books retrieved successfully",
       data: books,
+      meta: {
+        total, // total documents matching query
+        page, // current page
+        limit, // docs per page
+        totalPages: Math.ceil(total / limit),
+        hasNextPage: page * limit < total,
+        hasPrevPage: page > 1,
+      },
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to get books", error });
+    res.status(500).json({
+      success: false,
+      message: "Failed to get books",
+      error,
+    });
   }
 });
 
@@ -124,7 +142,7 @@ bookRoutes.put("/:bookId", async (req: Request, res: Response) => {
 
     res.status(200).json({
       sucess: true,
-       message: "Book updated successfully",
+      message: "Book updated successfully",
       data: updatedDoc,
     });
 
@@ -144,12 +162,13 @@ bookRoutes.put("/:bookId", async (req: Request, res: Response) => {
 bookRoutes.delete("/:bookId", async (req, res) => {
   try {
     const id = req.params.bookId;
+    console.log("Deleting book with ID:", id);
 
     const deleteBook = await Book.findOneAndDelete({ _id: id });
 
-    res.status(404).json({
+    res.status(200).json({
       sucess: true,
-       message: "Book deleted successfully",
+      message: "Book deleted successfully",
       data: null,
     });
 
@@ -164,4 +183,3 @@ bookRoutes.delete("/:bookId", async (req, res) => {
     console.log("ERROR", error);
   }
 });
- 
