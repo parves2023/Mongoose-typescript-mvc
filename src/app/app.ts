@@ -5,7 +5,12 @@ import { borrowRoutes } from "./MVC/Controller/borrow.controller";
 
 const app: Application = express();
 
-app.use(cors());
+
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'library-frontend-liard.vercel.app']
+   })
+);
 app.use(express.json());
 
 // controllers
